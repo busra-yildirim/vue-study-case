@@ -22,6 +22,7 @@
           :selectedSize="selectedSize"
           @value="handleSize($event)"
           :attributes="attributes"
+          :productVariants="productVariants"
         />
       </div>
       <div class="total-unit-wrapper">
@@ -64,7 +65,11 @@
             <div>
               <button
                 @click="handleAddCart"
-                :class="[isCompleted ? 'button' : 'button-disabled']"
+                :class="[
+                  this.filteredProduct.length > 0 && isCompleted
+                    ? 'button'
+                    : 'button-disabled',
+                ]"
               >
                 Sepete Ekle
               </button>
@@ -110,6 +115,7 @@ export default {
       images: [],
       mainImage: "",
       unit: 0,
+      isShow: false,
       isCompleted: false,
       totalAmount: 0.0,
       selectedId: "",
@@ -127,7 +133,10 @@ export default {
           item.attributes[1].value == this.selectedColor
         ) {
           this.mainImage = item.images[0];
+          this.isShowImage = true;
           return item;
+        } else {
+          this.isShowImage = false;
         }
       });
       product = product.filter((item) => item != undefined);
@@ -142,26 +151,16 @@ export default {
       this.product = ProductJson;
       this.product.productVariants.forEach((item) => {
         const attributeItem = {
-          name: item.attributes[0].value,
-          value: item.attributes[1].value,
+          size: item.attributes[0].value,
+          color: item.attributes[1].value,
+          isExisted: true,
         };
         this.attributes.push(attributeItem);
       });
-
       this.productTitle = this.product.productTitle;
       this.selectableAttributes = this.product.selectableAttributes;
-
       this.baremList = this.product.baremList;
       this.productVariants = this.product.productVariants;
-
-      this.productVariants.forEach((item) => {
-        if (
-          item.attributes[0].value == this.selectedSize &&
-          item.attributes[1].value == this.selectedColor
-        ) {
-          this.mainImage = item.images[0];
-        }
-      });
       this.calculateUnit();
     },
     calculateUnit() {
@@ -189,12 +188,16 @@ export default {
       this.mainImage = image;
     },
     handleAddCart() {
-      const barem = this.baremList.filter((item) => item.isSelected == true);
-      console.log("Selected Product id =>", this.filteredProduct[0].id);
-      console.log(
-        "Selected Product Barem =>",
-        `${barem[0].minimumQuantity}-${barem[0].maximumQuantity}`
-      );
+      if (this.filteredProduct.length > 0) {
+        const barem = this.baremList.filter((item) => item.isSelected == true);
+        console.log("Selected Product id =>", this.filteredProduct[0].id);
+        console.log(
+          "Selected Product Barem =>",
+          `${barem[0].minimumQuantity}-${barem[0].maximumQuantity}`
+        );
+      } else {
+        this.isCompleted = false;
+      }
     },
     getUnitInput() {
       this.calculateUnit();

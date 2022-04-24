@@ -7,14 +7,12 @@
         class="box"
         @click="handleClick(val)"
         :style="
-          selectedColor == val || (existFeature && selectedSize == val)
+          selectedColor == val || selectedSize == val
             ? { border: '3px solid #504747' }
             : { border: '1px solid #e3e3e3' }
         "
         :class="[
-          !existFeature && selectedSize == val
-            ? 'is-non-existed'
-            : 'is-existed',
+          isFeatureExisted(item.name, val) ? 'is-existed' : 'is-non-existed',
         ]"
       >
         {{ val }}
@@ -35,32 +33,24 @@ export default {
     selectedSize: String,
     attributes: Array,
   },
-  computed: {
-    filteredData() {
-      let product = this.attributes.map((item) => {
-        if (
-          item.name == this.selectedSize &&
-          item.value == this.selectedColor
-        ) {
-          return item;
-        }
-      });
-      product = product.filter((item) => item != undefined);
-      return product;
-    },
-    existFeature() {
-      let isExisted;
-      if (this.filteredData.length > 0) {
-        isExisted = true;
-      } else {
-        isExisted = false;
-      }
-      return isExisted;
-    },
+  created() {
+    console.log("attributes", this.attributes);
   },
   methods: {
     handleClick(val) {
       this.$emit("value", val);
+    },
+    isFeatureExisted(name, val) {
+      console.log("val", val);
+      if (name == "Beden") {
+        return this.attributes.some(
+          (item) => item.size == val && item.color == this.selectedColor
+        );
+      } else {
+        return this.attributes.some(
+          (item) => item.color == val && item.size == this.selectedSize
+        );
+      }
     },
   },
 };
