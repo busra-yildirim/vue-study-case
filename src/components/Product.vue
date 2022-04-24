@@ -105,7 +105,7 @@ export default {
       selectableAttributes: [],
       baremList: [],
       unitPriceTitle: "Toptan Fiyat",
-      selectedColor: "Siyah",
+      selectedColor: "Lacivert",
       selectedSize: "L",
       images: [],
       mainImage: "",
