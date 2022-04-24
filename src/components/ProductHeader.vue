@@ -8,13 +8,6 @@ export default {
   props: {
     productTitle: String,
   },
-  components: {},
-  data() {
-    return {};
-  },
-  created() {},
-  watch: {},
-  methods: {},
 };
 </script>
 

@@ -16,15 +16,11 @@ export default {
     },
     unit: Number,
   },
-  components: {},
   data() {
     return {
       currency: "TL",
     };
   },
-  created() {},
-  watch: {},
-  methods: {},
 };
 </script>
 

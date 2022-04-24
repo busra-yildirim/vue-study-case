@@ -12,15 +12,6 @@ export default {
     mainImage: String,
     variant: Array,
   },
-  components: {},
-  data() {
-    return {};
-  },
-  created() {
-    console.log("varianttttt", this.variant);
-  },
-  watch: {},
-  methods: {},
 };
 </script>
 

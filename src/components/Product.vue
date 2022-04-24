@@ -162,7 +162,6 @@ export default {
           this.mainImage = item.images[0];
         }
       });
-      console.log("attributes", this.attributes);
       this.calculateUnit();
     },
     calculateUnit() {
@@ -191,17 +190,13 @@ export default {
     },
     handleAddCart() {
       const barem = this.baremList.filter((item) => item.isSelected == true);
-      // alert(`Selected Product id => ${this.filteredProduct[0].id} \n
-      //  Selected Product Barem => ${barem[0].minimumQuantity}-${barem[0].maximumQuantity}`);
       console.log("Selected Product id =>", this.filteredProduct[0].id);
       console.log(
         "Selected Product Barem =>",
         `${barem[0].minimumQuantity}-${barem[0].maximumQuantity}`
       );
-      this.unit = 0;
     },
     getUnitInput() {
-      console.log("test", typeof this.unit);
       this.calculateUnit();
     },
   },

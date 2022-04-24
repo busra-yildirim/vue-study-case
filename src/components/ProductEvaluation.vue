@@ -1,10 +1,8 @@
 <template>
   <div class="wrapper">
-    <img src="https://img.icons8.com/fluency/2x/star.png" />
-    <img src="https://img.icons8.com/fluency/2x/star.png" />
-    <img src="https://img.icons8.com/fluency/2x/star.png" />
-    <img src="https://img.icons8.com/fluency/2x/star.png" />
-    <img src="https://img.icons8.com/fluency/2x/star.png" />
+    <div v-for="i in 5" :key="i">
+      <img src="https://img.icons8.com/fluency/2x/star.png" />
+    </div>
     <div class="comment">23 yorum</div>
   </div>
 </template>

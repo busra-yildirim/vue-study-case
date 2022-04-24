@@ -35,12 +35,6 @@ export default {
     selectedSize: String,
     attributes: Array,
   },
-  components: {},
-  data() {
-    return {
-      //  isExisted: false,
-    };
-  },
   computed: {
     filteredData() {
       let product = this.attributes.map((item) => {
@@ -50,30 +44,20 @@ export default {
         ) {
           return item;
         }
-        console.log("producttt", product);
-        //item.name == this.selectedSize && item.value == this.selectedColor;
       });
       product = product.filter((item) => item != undefined);
-      console.log("product", product);
       return product;
     },
     existFeature() {
-      console.log("this.filteredData", this.filteredData);
       let isExisted;
       if (this.filteredData.length > 0) {
         isExisted = true;
       } else {
         isExisted = false;
       }
-      console.log("isExisted", isExisted);
       return isExisted;
     },
   },
-  mounted() {
-    console.log("this.attributes", this.attributes);
-    console.log("item", this.selectedSize, this.selectedColor);
-  },
-  watch: {},
   methods: {
     handleClick(val) {
       this.$emit("value", val);

@@ -17,14 +17,6 @@ export default {
   props: {
     variant: Array,
   },
-  components: {},
-  data() {
-    return {};
-  },
-  created() {
-    console.log("variant", this.variant);
-  },
-  watch: {},
   methods: {
     selectedImage(image) {
       this.$emit("image", image);
