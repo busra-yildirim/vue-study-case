@@ -7,10 +7,15 @@
         class="box"
         @click="handleClick(val)"
         :style="
-          selectedColor == val || selectedSize == val
+          selectedColor == val || (existFeature && selectedSize == val)
             ? { border: '3px solid #504747' }
-            : { border: none }
+            : { border: '1px solid #e3e3e3' }
         "
+        :class="[
+          !existFeature && selectedSize == val
+            ? 'is-non-existed'
+            : 'is-existed',
+        ]"
       >
         {{ val }}
       </div>
@@ -28,14 +33,45 @@ export default {
     },
     selectedColor: String,
     selectedSize: String,
+    attributes: Array,
   },
   components: {},
   data() {
-    return {};
+    return {
+      //  isExisted: false,
+    };
   },
-  created() {
-    console.log("item featur", this.item);
-    console.log("selectedColor22", this.selectedColor);
+  computed: {
+    filteredData() {
+      let product = this.attributes.map((item) => {
+        if (
+          item.name == this.selectedSize &&
+          item.value == this.selectedColor
+        ) {
+          return item;
+        }
+        console.log("producttt", product);
+        //item.name == this.selectedSize && item.value == this.selectedColor;
+      });
+      product = product.filter((item) => item != undefined);
+      console.log("product", product);
+      return product;
+    },
+    existFeature() {
+      console.log("this.filteredData", this.filteredData);
+      let isExisted;
+      if (this.filteredData.length > 0) {
+        isExisted = true;
+      } else {
+        isExisted = false;
+      }
+      console.log("isExisted", isExisted);
+      return isExisted;
+    },
+  },
+  mounted() {
+    console.log("this.attributes", this.attributes);
+    console.log("item", this.selectedSize, this.selectedColor);
   },
   watch: {},
   methods: {
@@ -66,7 +102,15 @@ export default {
   height: 3rem;
   line-height: 3rem;
   padding: 0;
+}
+.is-non-existed {
+  background: #f4f5f7;
+  cursor: no-drop;
   border: 1px solid #e3e3e3;
+}
+.is-existed {
+  background: #fff;
   cursor: pointer;
+  border: 1px solid #e3e3e3;
 }
 </style>

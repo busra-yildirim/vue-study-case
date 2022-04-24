@@ -1,6 +1,6 @@
 <template>
   <div class="image-wrapper">
-    <div class="wrapper" v-if="variant[0].images.length > 0">
+    <div class="wrapper" v-if="variant.length > 0">
       <img
         :src="item"
         v-for="item in variant[0].images"
@@ -15,18 +15,14 @@
 export default {
   name: "Thumbnailler",
   props: {
-    variant: {
-      attributes: Array,
-      id: String,
-      images: Array,
-    },
+    variant: Array,
   },
   components: {},
   data() {
     return {};
   },
   created() {
-    console.log("variant", this.variant[0].images);
+    console.log("variant", this.variant);
   },
   watch: {},
   methods: {

@@ -5,7 +5,6 @@
       <div>
         <Thumbnailler
           :variant="filteredProduct"
-          @click="filteredProduct"
           @image="selectedImage($event)"
         />
       </div>
@@ -22,6 +21,7 @@
           :selectedColor="selectedColor"
           :selectedSize="selectedSize"
           @value="handleSize($event)"
+          :attributes="attributes"
         />
       </div>
       <div class="total-unit-wrapper">
@@ -34,10 +34,10 @@
             :style="
               barem.isSelected
                 ? { background: '#f6e9c1' }
-                : { background: none }
+                : { background: 'none' }
             "
           >
-            <ProductTotalPrice :barem="barem" :unit="unit" />
+            <ProductTotalPrice :barem="barem" :unit="Number(unit)" />
           </div>
         </div>
         <div class="unit-wrapper">
@@ -105,7 +105,7 @@ export default {
       selectableAttributes: [],
       baremList: [],
       unitPriceTitle: "Toptan Fiyat",
-      selectedColor: "Lacivert",
+      selectedColor: "Siyah",
       selectedSize: "L",
       images: [],
       mainImage: "",
@@ -113,7 +113,7 @@ export default {
       isCompleted: false,
       totalAmount: 0.0,
       selectedId: "",
-      attributes: {},
+      attributes: [],
     };
   },
   created() {
@@ -121,62 +121,59 @@ export default {
   },
   computed: {
     filteredProduct() {
-      const product = this.productVariants.filter(
-        (item) =>
-          item.attributes[0].value == this.selectedSize &&
-          item.attributes[1].value == this.selectedColor
-      );
-
-      console.log("product22", product);
-      return product;
-    },
-    changeMainImage() {
-      // console.log("this.mainImage", this.mainImage);
-      return this.mainImage;
-    },
-  },
-  watch: {},
-
-  methods: {
-    fetchProduct() {
-      this.product = ProductJson;
-      console.log("product", this.product);
-      this.productTitle = this.product.productTitle;
-      this.selectableAttributes = this.product.selectableAttributes;
-      this.baremList = this.product.baremList;
-      this.productVariants = this.product.productVariants;
-      console.log(" this.productVariants", this.productVariants);
-      console.log("selectedColor", this.selectedColor, this.selectedSize);
-      this.calculateUnit();
-      this.productVariants.forEach((item) => {
-        //console.log("item", item.attributes[0].value);
+      let product = this.productVariants.map((item) => {
         if (
           item.attributes[0].value == this.selectedSize &&
           item.attributes[1].value == this.selectedColor
         ) {
           this.mainImage = item.images[0];
-          console.log("item", item);
+          return item;
         }
       });
+      product = product.filter((item) => item != undefined);
+      return product;
+    },
+    changeMainImage() {
+      return this.mainImage;
+    },
+  },
+  methods: {
+    fetchProduct() {
+      this.product = ProductJson;
+      this.product.productVariants.forEach((item) => {
+        const attributeItem = {
+          name: item.attributes[0].value,
+          value: item.attributes[1].value,
+        };
+        this.attributes.push(attributeItem);
+      });
+
+      this.productTitle = this.product.productTitle;
+      this.selectableAttributes = this.product.selectableAttributes;
+
+      this.baremList = this.product.baremList;
+      this.productVariants = this.product.productVariants;
+
+      this.productVariants.forEach((item) => {
+        if (
+          item.attributes[0].value == this.selectedSize &&
+          item.attributes[1].value == this.selectedColor
+        ) {
+          this.mainImage = item.images[0];
+        }
+      });
+      console.log("attributes", this.attributes);
+      this.calculateUnit();
     },
     calculateUnit() {
-      //let unit = 150;
       this.baremList.forEach((item) => {
-        console.log("itemmm", item);
         if (
-          item.maximumQuantity > this.unit &&
-          item.minimumQuantity < this.unit
+          item.maximumQuantity >= this.unit &&
+          item.minimumQuantity <= this.unit
         ) {
-          console.log(
-            "okk",
-            this.unit,
-            item.maximumQuantity,
-            item.minimumQuantity
-          );
           this.isCompleted = true;
           item.isSelected = true;
           this.totalAmount = (this.unit * item.price).toFixed(2);
-          console.log("this.totalAmount ", this.totalAmount);
         } else {
           item.isSelected = false;
         }
@@ -188,24 +185,23 @@ export default {
       } else {
         this.selectedSize = val;
       }
-
-      console.log("val", val);
     },
     selectedImage(image) {
       this.mainImage = image;
-      console.log("image22", image);
     },
     handleAddCart() {
-      console.log("unit", this.unit);
-      this.unit = 0;
-      console.log("Selected Product id =>", this.filteredProduct[0].id);
       const barem = this.baremList.filter((item) => item.isSelected == true);
+      // alert(`Selected Product id => ${this.filteredProduct[0].id} \n
+      //  Selected Product Barem => ${barem[0].minimumQuantity}-${barem[0].maximumQuantity}`);
+      console.log("Selected Product id =>", this.filteredProduct[0].id);
       console.log(
         "Selected Product Barem =>",
         `${barem[0].minimumQuantity}-${barem[0].maximumQuantity}`
       );
+      this.unit = 0;
     },
     getUnitInput() {
+      console.log("test", typeof this.unit);
       this.calculateUnit();
     },
   },

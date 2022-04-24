@@ -22,10 +22,7 @@ export default {
       currency: "TL",
     };
   },
-  created() {
-    //console.log("barem", this.barem);
-    console.log("unit - total", this.unit);
-  },
+  created() {},
   watch: {},
   methods: {},
 };
