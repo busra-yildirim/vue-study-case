@@ -1,4 +1,13 @@
-# vue-study-case
+
+
+This repository contains a product detail page which developed by me using VueJS Framework 
+
+You can [click here](https://vue-study-case.netlify.app/) for live demo
+
+
+## Project Clone
+
+https://github.com/busra-yildirim/vue-study-case.git
 
 ## Project setup
 ```
