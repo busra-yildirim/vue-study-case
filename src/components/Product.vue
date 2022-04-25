@@ -1,7 +1,10 @@
 <template>
   <div class="wrapper">
     <div class="product-image-wrapper">
-      <ProductImage :mainImage="changeMainImage" />
+      <ProductImage
+        v-if="filteredProduct.length > 0"
+        :mainImage="changeMainImage"
+      />
       <div>
         <Thumbnailler
           :variant="filteredProduct"

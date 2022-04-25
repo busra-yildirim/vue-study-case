@@ -8,6 +8,7 @@
         @click="selectedImage(item)"
       />
     </div>
+    <div>Ürün Stokta Yok</div>
   </div>
 </template>
 
@@ -16,6 +17,12 @@ export default {
   name: "Thumbnailler",
   props: {
     variant: Array,
+  },
+  mounted() {
+    if (this.variant.length <= 0) {
+      var element = document.getElementById("mainImage");
+      element.style.display = "none";
+    }
   },
   methods: {
     selectedImage(image) {
@@ -47,5 +54,8 @@ img {
   width: 2rem;
   height: 3rem;
   border: none;
+}
+.mainImage {
+  display: none;
 }
 </style>

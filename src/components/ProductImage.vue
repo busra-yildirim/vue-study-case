@@ -1,7 +1,6 @@
 <template>
   <div>
     <img v-if="mainImage" :src="mainImage" />
-    <div v-if="!mainImage">Ürün Stokta Yok</div>
   </div>
 </template>
 

@@ -33,15 +33,11 @@ export default {
     selectedSize: String,
     attributes: Array,
   },
-  created() {
-    console.log("attributes", this.attributes);
-  },
   methods: {
     handleClick(val) {
       this.$emit("value", val);
     },
     isFeatureExisted(name, val) {
-      console.log("val", val);
       if (name == "Beden") {
         return this.attributes.some(
           (item) => item.size == val && item.color == this.selectedColor
